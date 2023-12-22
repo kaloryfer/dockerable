@@ -1,22 +1,25 @@
 pipeline {
     agent any
-
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('azurecr')
+    dotnet = '"C:\\Program Files\\dotnet\\dotnet.exe"'
+  }
     stages {
-        stage('Build') {
+        stage('Build code') {
             steps {
-                echo 'Building..'
+                 bat "${dotnet} build"
             }
         }
-        stage('Test') {
+         stage('Run code') {
             steps {
-                echo 'Testing..'
+                 bat "${dotnet} run"
             }
         }
-        stage('Deploy') {
+         stage('Clean code') {
             steps {
-                echo 'Deploying....'
+                 bat "${dotnet} clean"
             }
         }
+        
     }
 }
-
